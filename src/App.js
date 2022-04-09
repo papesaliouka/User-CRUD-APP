@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import {useGetDataQuery} from './services/api.service';
+
+import Loader from './components/loader';
+
+import UsersList from './components/users-list'
+import AddUser from './components/add-user'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const {data, error, isLoading} = useGetDataQuery();
+    return (
+        <div>
+            <h1>User Crud App</h1>
+            {isLoading && <Loader />}
+            {!isLoading && error && <h1>Sorry Something went wrong</h1>}
+            {!isLoading && !error && (
+                <>
+                    <UsersList users={data} />
+                    <AddUser />
+                </>
+            )}
+        </div>
+    );
 }
 
 export default App;
